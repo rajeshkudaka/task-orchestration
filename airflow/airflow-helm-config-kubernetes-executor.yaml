@@ -9,6 +9,10 @@ flower:
 redis:
   enabled: false
 
+extraEnv: |
+  - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
+    value: 'False'
+
 ###################################
 # Airflow - DAGs Configs
 ###################################
