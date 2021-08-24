@@ -1,0 +1,35 @@
+###################################
+# Airflow - Common Configs
+###################################
+executor: KubernetesExecutor
+
+flower:
+  enabled: false
+
+redis:
+  enabled: false
+
+###################################
+# Airflow - DAGs Configs
+###################################
+dags:
+  persistence:
+    enabled: false
+  gitSync:
+    enabled: true
+
+    repo: https://github.com/rajeshkudaka/task-orchestration.git
+    branch: master
+    rev: HEAD
+    depth: 1
+    # the number of consecutive failures allowed before aborting
+    maxFailures: 0
+    # subpath within the repo where dags are located
+    # should be "" if dags are at repo root
+    subPath: "airflow/dags"
+    wait: 60
+    containerName: git-sync
+    uid: 65533
+    extraVolumeMounts: []
+    env: []
+    resources: {}
