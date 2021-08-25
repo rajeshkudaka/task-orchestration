@@ -11,7 +11,7 @@ redis:
 
 extraEnv: |
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
-    value: 'False'
+    value: 'True'
 
 ###################################
 # Airflow - DAGs Configs
