@@ -1,0 +1,90 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: dag-example-
+spec:
+  entrypoint: start-task
+  podGC:
+    # Pod GC strategy must be one of the following:
+    # * OnPodCompletion - delete pods immediately when pod is completed (including errors/failures)
+    # * OnPodSuccess - delete pods immediately when pod is successful
+    # * OnWorkflowCompletion - delete pods when workflow is completed
+    # * OnWorkflowSuccess - delete pods when workflow is successful
+    strategy: OnWorkflowSuccess
+  volumeClaimTemplates:                 
+  - metadata:
+      name: shared-vol-dir 
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 500M
+
+  volumes:
+    - name: example-kubernetes-test-volume
+      hostPath:
+        path: "/tmp"
+        type: Directory
+
+  templates:
+  - name: start-task
+    dag:
+      tasks:
+      - name: A
+        template: sidecar
+      - name: B
+        template: task-with-sidecar
+        dependencies: [A]
+      - name: C
+        template: task-with-volume
+      - name: D
+        template: print-stuff
+
+  - name: print-stuff
+    container:
+      image: alpine:3.7
+      command: [echo, "Hello World!"]
+
+  - name: task-with-volume
+    script:
+      image: python:alpine3.6
+      command: [python]
+      source: |
+        import os
+        os.system("cat /foo/volume_mount_test.txt")
+        with open('/foo/volume_mount_test.txt', 'w') as foo:
+            foo.write('Hello')
+
+        return_code = os.system("cat /foo/volume_mount_test.txt")
+        if return_code != 0:
+            raise ValueError(f"Error when checking volume mount. Return code {return_code}")
+      volumeMounts:
+      - name: example-kubernetes-test-volume
+        mountPath: /foo
+
+  - name: task-with-sidecar
+    script:
+      image: python:alpine3.6
+      command: [python]
+      source: |
+        import os
+        for i in range(5):
+            try:
+                return_code = os.system("cat /shared/test.txt")
+                if return_code != 0:
+                    raise ValueError(f"Error when checking volume mount. Return code {return_code}")
+            except ValueError as e:
+                if i > 4:
+                    raise e
+      volumeMounts:
+      - name: shared-vol-dir
+        mountPath: /shared
+
+  - name: sidecar
+    container:
+      image: alpine:latest
+      command: [sh, -c]
+      args: ["echo retrieved from mount | tee /shared/test.txt"]
+      volumeMounts:                     
+      - name: shared-vol-dir
+        mountPath: /shared
