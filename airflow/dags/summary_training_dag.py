@@ -57,8 +57,8 @@ try:
             task_id="start_task",
             python_callable=print_stuff,
             executor_config={
-                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(annotations={"test": "annotation"}))
-                "namespace": "test"
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(annotations={"test": "annotation"})),
+                "namespace": "test",
                 "delete_worker_pods": "True"
             },
         )
