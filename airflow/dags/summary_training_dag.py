@@ -59,7 +59,6 @@ try:
             executor_config={
                 "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(annotations={"test": "annotation"})),
                 "namespace": "test",
-                "delete_worker_pods": "True"
             },
         )
 
@@ -67,7 +66,8 @@ try:
             task_id="training_task",
             python_callable=training,
             executor_config={
-                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"}))
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"}, namespace="test"))
+                "namespace": "test",
             },
         )
 
