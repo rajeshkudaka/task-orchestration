@@ -155,7 +155,7 @@ try:
             task_id="non_root_task",
             python_callable=print_stuff,
             executor_config={
-                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"}, namespace: "test"))
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"}))
             },
         )
 
@@ -172,5 +172,5 @@ try:
         start_task >> sidecar_task
         start_task >> task_with_template
 except ImportError as e:
-    log.warning("Could not import DAGs in example_kubernetes_executor_config.py: %s", str(e))
+    log.warning("Could not import DAGs in summary_training_dag.py: %s", str(e))
     log.warning("Install kubernetes dependencies with: pip install apache-airflow['cncf.kubernetes']")
