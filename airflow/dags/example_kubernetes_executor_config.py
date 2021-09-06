@@ -155,7 +155,7 @@ try:
             task_id="non_root_task",
             python_callable=print_stuff,
             executor_config={
-                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"}, namespace: "test"))
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"}, namespace="test"))
             },
         )
 
