@@ -20,6 +20,7 @@ This is an example dag for using a Kubernetes Executor Configuration.
 """
 import logging
 import os
+import sys
 
 from airflow import DAG
 from airflow.example_dags.libs.helper import print_stuff
@@ -50,12 +51,15 @@ try:
             """
             for i in range(5):
                 print("Train")
+                sys.stdout.write('Train')
 
         start_task = PythonOperator(
             task_id="start_task",
             python_callable=print_stuff,
             executor_config={
                 "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(annotations={"test": "annotation"}))
+                "namespace": "test"
+                "delete_worker_pods": "True"
             },
         )
 
