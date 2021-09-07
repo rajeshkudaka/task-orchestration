@@ -92,7 +92,7 @@ try:
         )
 
         end_task = PythonOperator(
-            task_id="training_task",
+            task_id="end_task",
             python_callable=print_stuff,
             executor_config={
                 "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"stage": "end"})),
