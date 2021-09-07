@@ -59,7 +59,7 @@ try:
             task_id="start_task",
             python_callable=print_stuff,
             executor_config={
-                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(annotations={"stage": "start"})),
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"stage": "start"})),
             },
         )
 
@@ -68,8 +68,8 @@ try:
             python_callable=training,
             executor_config={
                 "pod_override": k8s.V1Pod(
+                    metadata=k8s.V1ObjectMeta(labels={"stage": "train"}),
                     spec=k8s.V1PodSpec(
-			            metadata=k8s.V1ObjectMeta(annotations={"stage": "train"}),
                         containers=[
                             k8s.V1Container(
                                 name="base",
@@ -95,7 +95,7 @@ try:
             task_id="training_task",
             python_callable=print_stuff,
             executor_config={
-                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(annotations={"stage": "end"})),
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"stage": "end"})),
             },
         )
         start_task >> training_task >> end_task
