@@ -3,6 +3,19 @@
 ###################################
 executor: KubernetesExecutor
 
+postgresql:
+  enabled: false
+
+data:
+  metadataConnection:
+    user: postgres
+    pass: tVy1n8Z7rJ
+    protocol: postgresql
+    host: airflow-postgresql.airflow.svc.cluster.local 
+    port: 5432
+    db: postgres
+    sslmode: disable
+
 flower:
   enabled: false
 
@@ -14,9 +27,7 @@ statsd:
 
 extraEnv: |
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
-    value: 'True'
-  - name: AIRFLOW__KUBERNETES__MULTI_NAMESPACE_MODE
-    value: 'True'
+    value: 'False'
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS_ON_FAILURE
     value: 'False'
 
