@@ -41,17 +41,17 @@ spec:
         - name: AIRFLOW__CORE__FERNET_KEY
           valueFrom:
             secretKeyRef:
-              name: RELEASE-NAME-fernet-key
+              name: airflow-fernet-key
               key: fernet-key
         - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
           valueFrom:
             secretKeyRef:
-              name: RELEASE-NAME-airflow-metadata
+              name: airflow-airflow-metadata
               key: connection
         - name: AIRFLOW_CONN_AIRFLOW_DB
           valueFrom:
             secretKeyRef:
-              name: RELEASE-NAME-airflow-metadata
+              name: airflow-airflow-metadata
               key: connection
       envFrom: []
       image: dummy_image
@@ -75,15 +75,15 @@ spec:
     {}
   tolerations:
     []
-  serviceAccountName: 'RELEASE-NAME-worker-serviceaccount'
+  serviceAccountName: 'airflow-worker'
   volumes:
     - name: airflow-dags
       emptyDir: {}
     - emptyDir: {}
       name: airflow-logs
     - configMap:
-        name: RELEASE-NAME-airflow-config
+        name: airflow-airflow-config
       name: airflow-config
     - configMap:
-        name: RELEASE-NAME-airflow-config
+        name: airflow-airflow-config
       name: airflow-local-settings
