@@ -57,7 +57,7 @@ try:
             task_id="task_with_template",
             python_callable=print_stuff,
             executor_config={
-                "pod_template_file": os.path.join(AIRFLOW_HOME, "pod_templates/basic_template.yaml"),
+                "pod_template_file": os.path.join("/opt/airflow/dags/repo/airflow/dags", "pod_templates/basic_template.yaml"),
                 "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"})),
             },
         )
