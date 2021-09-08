@@ -9,7 +9,7 @@ postgresql:
 data:
   metadataConnection:
     user: postgres
-    pass: tVy1n8Z7rJ
+    pass: postgres
     protocol: postgresql
     host: airflow-postgresql.airflow.svc.cluster.local 
     port: 5432
@@ -25,9 +25,16 @@ redis:
 statsd:
   enabled: false
 
+config:
+  webserver:
+    web_server_worker_timeout: 300
+    workers: 1
+  logging:
+    logging_level: "DEBUG"
+
 extraEnv: |
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
-    value: 'False'
+    value: 'True'
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS_ON_FAILURE
     value: 'False'
 

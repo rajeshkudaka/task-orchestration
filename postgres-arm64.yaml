@@ -1,0 +1,4 @@
+image:
+  registry: docker.io
+  repository: arm64v8/postgres
+  tag: 11.13

@@ -1,0 +1,7 @@
+# Build a image manually in a arm64 machine and specify
+# the same in the helm chart or the override values.
+
+images:
+  airflow:
+    repository: local/airflow
+    tag: v1
