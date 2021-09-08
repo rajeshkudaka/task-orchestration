@@ -32,7 +32,7 @@ config:
     delete_worker_pods_on_failure: "False"
   webserver:
     web_server_worker_timeout: 300
-    workers: 1
+    workers: 4
   logging:
     logging_level: "DEBUG"
 
