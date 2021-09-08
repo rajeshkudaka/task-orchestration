@@ -9,7 +9,7 @@ postgresql:
 data:
   metadataConnection:
     user: postgres
-    pass: postgres
+    pass: tuEyWJzqTd
     protocol: postgresql
     host: airflow-postgresql.airflow.svc.cluster.local 
     port: 5432
@@ -26,6 +26,10 @@ statsd:
   enabled: false
 
 config:
+  kubernetes:
+    multi_namespace_mode: True
+    delete_worker_pods: "True"
+    delete_worker_pods_on_failure: "False"
   webserver:
     web_server_worker_timeout: 300
     workers: 1
