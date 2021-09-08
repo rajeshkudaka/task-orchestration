@@ -43,7 +43,15 @@ try:
         start_date=days_ago(2),
         tags=['example1'],
     ) as dag:
+        log.info("testing")
 
+        task_without_template = PythonOperator(
+            task_id="task_without_template",
+            python_callable=print_stuff,
+            executor_config={
+                "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"release": "stable"})),
+            },
+        )
         # [START task_with_template]
         task_with_template = PythonOperator(
             task_id="task_with_template",
@@ -55,7 +63,7 @@ try:
         )
         # [END task_with_template]
 
-        task_with_template
+        task_without_template >> task_with_template
 except ImportError as e:
     log.warning("Could not import DAGs in example_kubernetes_executor_config.py: %s", str(e))
     log.warning("Install kubernetes dependencies with: pip install apache-airflow['cncf.kubernetes']")
