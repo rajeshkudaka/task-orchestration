@@ -5,3 +5,6 @@ images:
   airflow:
     repository: local/airflow
     tag: v1
+  gitSync:
+    repository: local/git-sync
+    tag: v1-arm64
