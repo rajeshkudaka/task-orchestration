@@ -104,7 +104,7 @@ with DAG(
     tags=['example', 'pod_operator'],
 ) as dag:
     k = KubernetesPodOperator(
-        namespace='default',
+        namespace='airflow',
         image="ubuntu:16.04",
         cmds=["bash", "-cx"],
         arguments=["echo", "10"],
