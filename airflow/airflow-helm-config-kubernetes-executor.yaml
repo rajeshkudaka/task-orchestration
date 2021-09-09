@@ -28,7 +28,7 @@ statsd:
 config:
   kubernetes:
     multi_namespace_mode: True
-    delete_worker_pods: "True"
+    delete_worker_pods: "False"
     delete_worker_pods_on_failure: "False"
   webserver:
     web_server_worker_timeout: 300
@@ -38,7 +38,7 @@ config:
 
 extraEnv: |
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
-    value: 'True'
+    value: 'False'
   - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS_ON_FAILURE
     value: 'False'
 
